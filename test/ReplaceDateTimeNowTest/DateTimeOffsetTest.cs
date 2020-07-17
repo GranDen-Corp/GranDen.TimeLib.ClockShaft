@@ -14,7 +14,7 @@ namespace ReplaceDateTimeNowTest
         
         
         [Fact]
-        public void ClockWorkInitializerNotSet_ActLikeNormalDateTimeNow()
+        public void ClockWorkInitializerNotSet_ActLikeNormalDateTimeOffsetNow()
         {
             //Arrange
             var now = DateTimeOffset.Now;
@@ -27,7 +27,7 @@ namespace ReplaceDateTimeNowTest
         }
 
         [Fact]
-        public void ClockWorkSetEarly1Hour()
+        public void ClockWorkSetNow_1HourEarlier()
         {
             //Arrange
             TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
@@ -47,31 +47,56 @@ namespace ReplaceDateTimeNowTest
             Assert.Equal(now, shaftNow.Add(oneHourSpan), new DateTimeOffsetComparator(10.0));
         }
 
-    }
-
-    public class DateTimeOffsetComparator : IEqualityComparer<DateTimeOffset>
-    {
-        private readonly TimeSpan _fraction;
-
-        public DateTimeOffsetComparator(double fractionMilliseconds)
+        [Fact]
+        public void ClockWorkSetNow_1HourLater()
         {
-            _fraction = TimeSpan.FromMilliseconds(fractionMilliseconds);
-        }
+            //Arrange
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
 
-        public bool Equals(DateTimeOffset expected, DateTimeOffset actual)
-        {
-            var compareResult = expected.CompareTo(actual);
+            ClockWork.ShaftConfigurationFunc = instance =>
+            {
+                instance.Backward = false;
+                instance.ShiftTimeSpan = oneHourSpan;
+                return instance;
+            };
 
-            if (compareResult == 0) { return true;}
+            //Act
+            var now = DateTimeOffset.Now;
+            var shaftNow = ClockWork.DateTimeOffset.Now;
 
-            var diff = compareResult > 0 ? expected.Subtract(actual) : actual.Subtract(expected);
-
-            return diff <= _fraction;
-        }
-
-        public int GetHashCode(DateTimeOffset obj)
-        {
-            return obj.GetHashCode();
+            //Assert
+            Assert.Equal(now, shaftNow.Subtract(oneHourSpan), new DateTimeOffsetComparator(10.0));
         }
     }
+    
+    #region DateTimeOffset comparator
+    
+   public class DateTimeOffsetComparator : IEqualityComparer<DateTimeOffset>
+       {
+           private readonly TimeSpan _fraction;
+   
+           public DateTimeOffsetComparator(double fractionMilliseconds)
+           {
+               _fraction = TimeSpan.FromMilliseconds(fractionMilliseconds);
+           }
+   
+           public bool Equals(DateTimeOffset expected, DateTimeOffset actual)
+           {
+               var compareResult = expected.CompareTo(actual);
+   
+               if (compareResult == 0) { return true;}
+   
+               var diff = compareResult > 0 ? expected.Subtract(actual) : actual.Subtract(expected);
+   
+               return diff <= _fraction;
+           }
+   
+           public int GetHashCode(DateTimeOffset obj)
+           {
+               return obj.GetHashCode();
+           }
+       } 
+    
+    #endregion
+
 }

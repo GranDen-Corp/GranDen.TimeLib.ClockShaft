@@ -25,7 +25,7 @@ namespace ReplaceDateTimeNowTest
         }
 
         [Fact]
-        public void ClockWorkSetEarly1Hour()
+        public void ClockWorkSetNow_1HourEarlier()
         {
             //Arrange
             TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
@@ -46,7 +46,7 @@ namespace ReplaceDateTimeNowTest
         }
 
         [Fact]
-        public void ClockworkSetLate1Hour()
+        public void ClockworkSetNow_1HourLater()
         {
             //Arrange
             TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
@@ -76,6 +76,28 @@ namespace ReplaceDateTimeNowTest
 
             //Assert
             Assert.Equal(utcNow, shaftUtcNow, TimeSpan.FromMilliseconds(10.0));
+        }
+
+        [Fact]
+        public void ClockWorkSetUtc_1HourEarlier()
+        {
+            
+            //Arrange
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
+
+            ClockWork.ShaftConfigurationFunc = shaft =>
+            {
+                shaft.Backward = true;
+                shaft.ShiftTimeSpan = oneHourSpan;
+                return shaft;
+            };
+
+            //Act
+            var now = DateTime.UtcNow;
+            var shaftNow = ClockWork.DateTime.UtcNow;
+
+            //Assert
+            Assert.Equal(now, shaftNow.Add(oneHourSpan), TimeSpan.FromMilliseconds(10.0));
         }
     }
 }
