@@ -30,4 +30,10 @@
     <ProjectReference Include="..\..\src\GranDen.TimeLib.ClockShaft\GranDen.TimeLib.ClockShaft.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="TestResult\**" />
+    <EmbeddedResource Remove="TestResult\**" />
+    <None Remove="TestResult\**" />
+  </ItemGroup>
+  
 </Project>

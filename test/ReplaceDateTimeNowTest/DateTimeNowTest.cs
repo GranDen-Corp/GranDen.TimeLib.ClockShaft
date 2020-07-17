@@ -25,22 +25,44 @@ namespace ReplaceDateTimeNowTest
         }
 
         [Fact]
-        public void ClockWorkSetEarly1hou()
+        public void ClockWorkSetEarly1Hour()
         {
             //Arrange
-            ClockWork.Initializer = instance => {
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
+
+            ClockWork.Initializer = instance =>
+            {
                 instance.Backward = true;
-                instance.ShiftTimeSpan = new TimeSpan(1, 0, 0);
+                instance.ShiftTimeSpan = oneHourSpan;
                 return instance;
             };
 
-            //Arrange
+            //Act
             var now = DateTime.Now;
-         
             var shaftNow = ClockWork.DateTime.Now;
 
             //Assert
-            Assert.Equal(now, shaftNow.Add(new TimeSpan(1, 0, 0)), TimeSpan.FromMilliseconds(10.0));
+            Assert.Equal(now, shaftNow.Add(oneHourSpan), TimeSpan.FromMilliseconds(10.0));
+        }
+
+        [Fact]
+        public void ClockworkSetLate1Hour()
+        {
+            //Arrange
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
+
+            ClockWork.Initializer = shaft =>
+            {
+                shaft.ShiftTimeSpan = oneHourSpan;
+                return shaft;
+            };
+
+            //Act
+            var now = DateTime.Now;
+            var shaftNow = ClockWork.DateTime.Now;
+
+            //Assert
+            Assert.Equal(now, shaftNow.Subtract(oneHourSpan), TimeSpan.FromMilliseconds(10.0));
         }
 
         [Fact]
