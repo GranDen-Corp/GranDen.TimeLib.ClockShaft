@@ -3,32 +3,51 @@ using System;
 
 namespace GranDen.TimeLib.ClockShaft
 {
-    public delegate IShaft InitShaftDelegate(IShaft shaftInstance);
+    /// <summary>
+    /// Init Shaft parameter delegate function type
+    /// </summary>
+    /// <param name="shaftInstance"></param>
+    public delegate IShaft ConfigShaftDelegate(IShaft shaftInstance);
 
+    /// <summary>
+    /// Library global access &amp; control point
+    /// </summary>
     public static class ClockWork
     {
-        private static InitShaftDelegate _initShaftDelegate;
+        private static ConfigShaftDelegate _configShaftDelegate;
 
-        public static InitShaftDelegate ShaftInitializer
+        /// <summary>
+        /// Shaft configuration function
+        /// </summary>
+        public static ConfigShaftDelegate ShaftConfigurationFunc
         {
             get
             {
-                return _initShaftDelegate;
+                return _configShaftDelegate;
             }
             set
             {
-                _initShaftDelegate = value;
+                _configShaftDelegate = value;
                 Shaft.ReAssignLazyInstance(value);
             }
         }
 
+        /// <summary>
+        /// Reset Shaft drift value
+        /// </summary>
         public static void Reset()
         {
             Shaft.ReAssignLazyInstance(instance => instance);
         }
 
+        /// <summary>
+        /// Mimic property to act like <c>DateTime</c> 
+        /// </summary>
         public static IDateTime DateTime { get => Shaft.SingletonInstance; }
         
+        /// <summary>
+        /// Mimic property to act like <c>DateTimeOffset</c>
+        /// </summary>
         public static IDateTimeOffset DateTimeOffset { get => Shaft.SingletonInstance; }
     }
 
@@ -36,14 +55,14 @@ namespace GranDen.TimeLib.ClockShaft
 
     internal class Shaft : IShaft, IDateTime, IDateTimeOffset
     {
-        protected static Lazy<Shaft> LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftInitializer));
+        protected static Lazy<Shaft> LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
 
         public static bool IsCreated()
         {
             return LazyInstance.IsValueCreated;
         }
 
-        protected internal static void ReAssignLazyInstance(InitShaftDelegate initializeDelegate)
+        protected internal static void ReAssignLazyInstance(ConfigShaftDelegate initializeDelegate)
         {
             LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(initializeDelegate));
         }
@@ -121,7 +140,7 @@ namespace GranDen.TimeLib.ClockShaft
 
         public TimeSpan? ShiftTimeSpan { get; set; }
 
-        private static Func<Shaft> GenerateShaftFactory(InitShaftDelegate shaftDelegate)
+        private static Func<Shaft> GenerateShaftFactory(ConfigShaftDelegate shaftDelegate)
         {
             var instance = new Shaft();
             Func<Shaft> fac;

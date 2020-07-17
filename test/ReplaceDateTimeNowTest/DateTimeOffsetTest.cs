@@ -32,7 +32,7 @@ namespace ReplaceDateTimeNowTest
             //Arrange
             TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
 
-            ClockWork.ShaftInitializer = instance =>
+            ClockWork.ShaftConfigurationFunc = instance =>
             {
                 instance.Backward = true;
                 instance.ShiftTimeSpan = oneHourSpan;
