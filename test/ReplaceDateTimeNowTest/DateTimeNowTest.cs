@@ -4,6 +4,7 @@ using Xunit;
 
 namespace ReplaceDateTimeNowTest
 {
+    [Collection("Test no parallel")]
     public class DateTimeNowTest
     {
         public DateTimeNowTest()

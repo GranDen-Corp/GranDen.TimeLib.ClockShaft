@@ -5,6 +5,7 @@ using Xunit;
 
 namespace ReplaceDateTimeNowTest
 {
+    [Collection("Test no parallel")]
     public class DateTimeOffsetTest
     {
         public DateTimeOffsetTest()
