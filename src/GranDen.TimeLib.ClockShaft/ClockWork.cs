@@ -9,7 +9,7 @@ namespace GranDen.TimeLib.ClockShaft
     {
         private static InitShaftDelegate _initShaftDelegate;
 
-        public static InitShaftDelegate Initializer
+        public static InitShaftDelegate ShaftInitializer
         {
             get
             {
@@ -27,14 +27,16 @@ namespace GranDen.TimeLib.ClockShaft
             Shaft.ReAssignLazyInstance(instance => instance);
         }
 
-        public static IDateTime DateTime { get => Shaft.Instance; }
+        public static IDateTime DateTime { get => Shaft.SingletonInstance; }
+        
+        public static IDateTimeOffset DateTimeOffset { get => Shaft.SingletonInstance; }
     }
 
     #region Singleton Shaft class
 
-    internal class Shaft : IShaft, IDateTime
+    internal class Shaft : IShaft, IDateTime, IDateTimeOffset
     {
-        protected internal static Lazy<Shaft> LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.Initializer));
+        protected static Lazy<Shaft> LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftInitializer));
 
         public static bool IsCreated()
         {
@@ -46,7 +48,7 @@ namespace GranDen.TimeLib.ClockShaft
             LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(initializeDelegate));
         }
 
-        public static Shaft Instance { get => LazyInstance.Value; }
+        public static Shaft SingletonInstance { get => LazyInstance.Value; }
 
         private Shaft()
         {
@@ -67,6 +69,23 @@ namespace GranDen.TimeLib.ClockShaft
             }
         }
 
+        DateTimeOffset IDateTimeOffset.Now
+        {
+            get
+            {
+                
+                if (ShiftTimeSpan.HasValue)
+                {
+                    return Backward.HasValue && Backward.Value
+                        ? DateTimeOffset.Now.Subtract(ShiftTimeSpan.Value)
+                        : DateTimeOffset.Now.Add(ShiftTimeSpan.Value);
+                }
+
+                return DateTimeOffset.Now; 
+            }
+        }
+
+
         public DateTime UtcNow
         {
             get
@@ -81,6 +100,22 @@ namespace GranDen.TimeLib.ClockShaft
                 return DateTime.UtcNow;
             }
         }
+
+        DateTimeOffset IDateTimeOffset.UtcNow
+        {
+            get
+            {
+                if (ShiftTimeSpan.HasValue)
+                {
+                    return Backward.HasValue && Backward.Value
+                        ? DateTimeOffset.UtcNow.Subtract(ShiftTimeSpan.Value)
+                        : DateTimeOffset.UtcNow.Add(ShiftTimeSpan.Value);
+                }
+
+                return DateTimeOffset.UtcNow;
+            }
+        }
+
 
         public bool? Backward { get; set; }
 
