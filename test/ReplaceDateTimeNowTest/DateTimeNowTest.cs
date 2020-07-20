@@ -4,12 +4,15 @@ using Xunit;
 
 namespace ReplaceDateTimeNowTest
 {
-    [Collection("Test no parallel")]
+    [Collection("Test should not parallel on different test classes")]
     public class DateTimeNowTest
     {
         public DateTimeNowTest()
         {
-            ClockWork.Reset();
+            if (ClockWork.ShaftInitialized)
+            {
+                ClockWork.Reset();
+            }
         }
 
         [Fact]

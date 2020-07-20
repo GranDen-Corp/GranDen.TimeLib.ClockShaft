@@ -33,11 +33,11 @@ namespace GranDen.TimeLib.ClockShaft
         }
 
         /// <summary>
-        /// Reset Shaft drift value
+        /// Reset Clock shaft drift value
         /// </summary>
         public static void Reset()
         {
-            Shaft.ReAssignLazyInstance(instance => instance);
+            Shaft.ReAssignLazyInstance(Shaft.DefaultConfigShaftDelegate);
         }
 
         /// <summary>
@@ -49,25 +49,32 @@ namespace GranDen.TimeLib.ClockShaft
         /// Mimic property to act like <c>DateTimeOffset</c>
         /// </summary>
         public static IDateTimeOffset DateTimeOffset { get => Shaft.SingletonInstance; }
+        
+        /// <summary>
+        /// Get to know if <c>Shaft</c> lazy singleton instance is created.
+        /// </summary>
+        public static bool ShaftInitialized { get => Shaft.IsCreated(); }
     }
 
     #region Singleton Shaft class
 
     internal class Shaft : IShaft, IDateTime, IDateTimeOffset
     {
-        protected static Lazy<Shaft> LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
+        private static Lazy<Shaft> _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
+
+        public static readonly ConfigShaftDelegate DefaultConfigShaftDelegate = instance => instance;
 
         public static bool IsCreated()
         {
-            return LazyInstance.IsValueCreated;
+            return _lazyInstance.IsValueCreated;
         }
 
         protected internal static void ReAssignLazyInstance(ConfigShaftDelegate initializeDelegate)
         {
-            LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(initializeDelegate));
+            _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(initializeDelegate));
         }
 
-        public static Shaft SingletonInstance { get => LazyInstance.Value; }
+        public static Shaft SingletonInstance { get => _lazyInstance.Value; }
 
         private Shaft()
         {
@@ -143,22 +150,14 @@ namespace GranDen.TimeLib.ClockShaft
         private static Func<Shaft> GenerateShaftFactory(ConfigShaftDelegate shaftDelegate)
         {
             var instance = new Shaft();
-            Func<Shaft> fac;
 
-            if (shaftDelegate != null)
+            Shaft LazyShaftInitFunc()
             {
-                fac = () =>
-                {
-                    var ret = shaftDelegate(instance);
-                    return (Shaft)ret;
-                };
-            }
-            else
-            {
-                fac = () => instance;
+                var ret = shaftDelegate(instance);
+                return (Shaft)ret;
             }
 
-            return fac;
+            return LazyShaftInitFunc;
         }
     }
 
