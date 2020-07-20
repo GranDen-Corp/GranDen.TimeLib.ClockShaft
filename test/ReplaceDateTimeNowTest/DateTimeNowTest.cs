@@ -4,11 +4,15 @@ using Xunit;
 
 namespace ReplaceDateTimeNowTest
 {
+    [Collection("Test should not parallel on different test classes")]
     public class DateTimeNowTest
     {
         public DateTimeNowTest()
         {
-            ClockWork.Reset();
+            if (ClockWork.ShaftInitialized)
+            {
+                ClockWork.Reset();
+            }
         }
 
         [Fact]
@@ -25,22 +29,44 @@ namespace ReplaceDateTimeNowTest
         }
 
         [Fact]
-        public void ClockWorkSetEarly1hou()
+        public void ClockWorkSetNow_1HourEarlier()
         {
             //Arrange
-            ClockWork.Initializer = instance => {
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
+
+            ClockWork.ShaftConfigurationFunc = instance =>
+            {
                 instance.Backward = true;
-                instance.ShiftTimeSpan = new TimeSpan(1, 0, 0);
+                instance.ShiftTimeSpan = oneHourSpan;
                 return instance;
             };
 
-            //Arrange
+            //Act
             var now = DateTime.Now;
-         
             var shaftNow = ClockWork.DateTime.Now;
 
             //Assert
-            Assert.Equal(now, shaftNow.Add(new TimeSpan(1, 0, 0)), TimeSpan.FromMilliseconds(10.0));
+            Assert.Equal(now, shaftNow.Add(oneHourSpan), TimeSpan.FromMilliseconds(10.0));
+        }
+
+        [Fact]
+        public void ClockworkSetNow_1HourLater()
+        {
+            //Arrange
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
+
+            ClockWork.ShaftConfigurationFunc = shaft =>
+            {
+                shaft.ShiftTimeSpan = oneHourSpan;
+                return shaft;
+            };
+
+            //Act
+            var now = DateTime.Now;
+            var shaftNow = ClockWork.DateTime.Now;
+
+            //Assert
+            Assert.Equal(now, shaftNow.Subtract(oneHourSpan), TimeSpan.FromMilliseconds(10.0));
         }
 
         [Fact]
@@ -54,6 +80,28 @@ namespace ReplaceDateTimeNowTest
 
             //Assert
             Assert.Equal(utcNow, shaftUtcNow, TimeSpan.FromMilliseconds(10.0));
+        }
+
+        [Fact]
+        public void ClockWorkSetUtc_1HourEarlier()
+        {
+            
+            //Arrange
+            TimeSpan oneHourSpan = new TimeSpan(1, 0, 0);
+
+            ClockWork.ShaftConfigurationFunc = shaft =>
+            {
+                shaft.Backward = true;
+                shaft.ShiftTimeSpan = oneHourSpan;
+                return shaft;
+            };
+
+            //Act
+            var now = DateTime.UtcNow;
+            var shaftNow = ClockWork.DateTime.UtcNow;
+
+            //Assert
+            Assert.Equal(now, shaftNow.Add(oneHourSpan), TimeSpan.FromMilliseconds(10.0));
         }
     }
 }

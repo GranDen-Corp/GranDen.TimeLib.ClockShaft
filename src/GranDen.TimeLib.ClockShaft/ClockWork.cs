@@ -3,50 +3,78 @@ using System;
 
 namespace GranDen.TimeLib.ClockShaft
 {
-    public delegate IShaft InitShaftDelegate(IShaft shaftInstance);
+    /// <summary>
+    /// Init Shaft parameter delegate function type
+    /// </summary>
+    /// <param name="shaftInstance"></param>
+    public delegate IShaft ConfigShaftDelegate(IShaft shaftInstance);
 
+    /// <summary>
+    /// Library global access &amp; control point
+    /// </summary>
     public static class ClockWork
     {
-        private static InitShaftDelegate _initShaftDelegate;
+        private static ConfigShaftDelegate _configShaftDelegate;
 
-        public static InitShaftDelegate Initializer
+        /// <summary>
+        /// Shaft configuration function
+        /// </summary>
+        public static ConfigShaftDelegate ShaftConfigurationFunc
         {
             get
             {
-                return _initShaftDelegate;
+                return _configShaftDelegate;
             }
             set
             {
-                _initShaftDelegate = value;
+                _configShaftDelegate = value;
                 Shaft.ReAssignLazyInstance(value);
             }
         }
 
+        /// <summary>
+        /// Reset Clock shaft drift value
+        /// </summary>
         public static void Reset()
         {
-            Shaft.ReAssignLazyInstance(instance => instance);
+            Shaft.ReAssignLazyInstance(Shaft.DefaultConfigShaftDelegate);
         }
 
-        public static IDateTime DateTime { get => Shaft.Instance; }
+        /// <summary>
+        /// Mimic property to act like <c>DateTime</c> 
+        /// </summary>
+        public static IDateTime DateTime { get => Shaft.SingletonInstance; }
+
+        /// <summary>
+        /// Mimic property to act like <c>DateTimeOffset</c>
+        /// </summary>
+        public static IDateTimeOffset DateTimeOffset { get => Shaft.SingletonInstance; }
+
+        /// <summary>
+        /// Get to know if <c>Shaft</c> lazy singleton instance is created.
+        /// </summary>
+        public static bool ShaftInitialized { get => Shaft.IsCreated(); }
     }
 
     #region Singleton Shaft class
 
-    internal class Shaft : IShaft, IDateTime
+    internal class Shaft : IShaft, IDateTime, IDateTimeOffset
     {
-        protected internal static Lazy<Shaft> LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.Initializer));
+        private static Lazy<Shaft> _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
+
+        public static readonly ConfigShaftDelegate DefaultConfigShaftDelegate = instance => instance;
 
         public static bool IsCreated()
         {
-            return LazyInstance.IsValueCreated;
+            return _lazyInstance.IsValueCreated;
         }
 
-        protected internal static void ReAssignLazyInstance(InitShaftDelegate initializeDelegate)
+        protected internal static void ReAssignLazyInstance(ConfigShaftDelegate initializeDelegate)
         {
-            LazyInstance = new Lazy<Shaft>(GenerateShaftFactory(initializeDelegate));
+            _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(initializeDelegate));
         }
 
-        public static Shaft Instance { get => LazyInstance.Value; }
+        public static Shaft SingletonInstance { get => _lazyInstance.Value; }
 
         private Shaft()
         {
@@ -67,6 +95,22 @@ namespace GranDen.TimeLib.ClockShaft
             }
         }
 
+        DateTimeOffset IDateTimeOffset.Now
+        {
+            get
+            {
+                if (ShiftTimeSpan.HasValue)
+                {
+                    return Backward.HasValue && Backward.Value
+                        ? DateTimeOffset.Now.Subtract(ShiftTimeSpan.Value)
+                        : DateTimeOffset.Now.Add(ShiftTimeSpan.Value);
+                }
+
+                return DateTimeOffset.Now;
+            }
+        }
+
+
         public DateTime UtcNow
         {
             get
@@ -82,29 +126,39 @@ namespace GranDen.TimeLib.ClockShaft
             }
         }
 
+        DateTimeOffset IDateTimeOffset.UtcNow
+        {
+            get
+            {
+                if (ShiftTimeSpan.HasValue)
+                {
+                    return Backward.HasValue && Backward.Value
+                        ? DateTimeOffset.UtcNow.Subtract(ShiftTimeSpan.Value)
+                        : DateTimeOffset.UtcNow.Add(ShiftTimeSpan.Value);
+                }
+
+                return DateTimeOffset.UtcNow;
+            }
+        }
+
+
         public bool? Backward { get; set; }
 
         public TimeSpan? ShiftTimeSpan { get; set; }
 
-        private static Func<Shaft> GenerateShaftFactory(InitShaftDelegate shaftDelegate)
+        private static Func<Shaft> GenerateShaftFactory(ConfigShaftDelegate shaftDelegate)
         {
             var instance = new Shaft();
-            Func<Shaft> fac;
 
-            if (shaftDelegate != null)
+            Shaft LazyShaftInitFunc()
             {
-                fac = () =>
-                {
-                    var ret = shaftDelegate(instance);
-                    return (Shaft)ret;
-                };
-            }
-            else
-            {
-                fac = () => instance;
+                if (shaftDelegate == null) { shaftDelegate = DefaultConfigShaftDelegate; }
+
+                var ret = shaftDelegate(instance);
+                return (Shaft)ret;
             }
 
-            return fac;
+            return LazyShaftInitFunc;
         }
     }
 

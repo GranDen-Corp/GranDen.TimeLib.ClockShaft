@@ -6,8 +6,11 @@
     <Title>DateTime Utility</Title>
     <Copyright>Copyright (c) 2020 GranDen Corp.(狂點軟體開發)</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.Lib.DateTimeShaft</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</RepositoryUrl>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</PackageProjectUrl>
+    <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageTags>date time timezone</PackageTags>
     <Company>GranDen Inc.</Company>
@@ -15,8 +18,20 @@
     <Description>A Utility library for easier handle DateTime in Testing environment.</Description>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>./GranDen.TimeLib.ClockShaft.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>./GranDen.TimeLib.ClockShaft.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
-    <!-- <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" /> -->
+    <None Remove="GranDen.TimeLib.ClockShaft.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" /> 
   </ItemGroup>
 
 </Project>
