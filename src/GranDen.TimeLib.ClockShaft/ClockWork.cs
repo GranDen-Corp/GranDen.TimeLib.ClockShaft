@@ -44,12 +44,12 @@ namespace GranDen.TimeLib.ClockShaft
         /// Mimic property to act like <c>DateTime</c> 
         /// </summary>
         public static IDateTime DateTime { get => Shaft.SingletonInstance; }
-        
+
         /// <summary>
         /// Mimic property to act like <c>DateTimeOffset</c>
         /// </summary>
         public static IDateTimeOffset DateTimeOffset { get => Shaft.SingletonInstance; }
-        
+
         /// <summary>
         /// Get to know if <c>Shaft</c> lazy singleton instance is created.
         /// </summary>
@@ -99,7 +99,6 @@ namespace GranDen.TimeLib.ClockShaft
         {
             get
             {
-                
                 if (ShiftTimeSpan.HasValue)
                 {
                     return Backward.HasValue && Backward.Value
@@ -107,7 +106,7 @@ namespace GranDen.TimeLib.ClockShaft
                         : DateTimeOffset.Now.Add(ShiftTimeSpan.Value);
                 }
 
-                return DateTimeOffset.Now; 
+                return DateTimeOffset.Now;
             }
         }
 
@@ -153,6 +152,8 @@ namespace GranDen.TimeLib.ClockShaft
 
             Shaft LazyShaftInitFunc()
             {
+                if (shaftDelegate == null) { shaftDelegate = DefaultConfigShaftDelegate; }
+
                 var ret = shaftDelegate(instance);
                 return (Shaft)ret;
             }
