@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\GranDen.TimeLib.ClockShaft\GranDen.TimeLib.ClockShaft.csproj" />
+    <ProjectReference Include="..\..\src\GranDen.TimeLib.ClockShaft.Options\GranDen.TimeLib.ClockShaft.Options.csproj" />
   </ItemGroup>
 
   <ItemGroup>

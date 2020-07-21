@@ -592,3 +592,4 @@ fabric.properties
 # End of https://www.gitignore.io/api/rider,csharp,visualstudio,visualstudiocode
 
 src/GranDen.TimeLib.ClockShaft/GranDen.TimeLib.ClockShaft.xml
+src/GranDen.TimeLib.ClockShaft.Options/GranDen.TimeLib.ClockShaft.Options.xml
