@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace GranDen.TimeLib.ClockShaft.Options
@@ -10,49 +11,51 @@ namespace GranDen.TimeLib.ClockShaft.Options
     public static class ClockShaftConfigureAppExtension
     {
         /// <summary>
-        /// Configure <c>ClockWork.ShaftConfigurationFunc</c> 
+        /// Configure <c>ClockWork.ShaftConfigurationFunc</c> to apply at host application startup and reset it when stopped
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="hostApplicationLifetime"></param>
         /// <param name="optionsAccessor"></param>
         /// <returns></returns>
-        public static IApplicationBuilder ConfigureClockShaft(this IApplicationBuilder builder,
-            IOptionsMonitor<ClockShaftOptions> optionsAccessor)
+        public static IHostApplicationLifetime ConfigureClockShaft(this IHostApplicationLifetime hostApplicationLifetime, IOptionsMonitor<ClockShaftOptions> optionsAccessor)
         {
             var clockShiftOptions = optionsAccessor.CurrentValue;
-
-            return builder.ConfigureClockShaft(clockShiftOptions);
+            
+            return hostApplicationLifetime.ConfigureClockShaft(clockShiftOptions);
         }
 
         /// <summary>
-        /// Configure <c>ClockWork.ShaftConfigurationFunc</c>
+        /// Configure <c>ClockWork.ShaftConfigurationFunc</c> to apply at host application startup and reset it when stopped
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="hostApplicationLifetime"></param>
         /// <param name="clockShaftOptions"></param>
         /// <returns></returns>
-        public static IApplicationBuilder ConfigureClockShaft(this IApplicationBuilder builder,
-            ClockShaftOptions clockShaftOptions)
+        public static IHostApplicationLifetime ConfigureClockShaft(this IHostApplicationLifetime hostApplicationLifetime, ClockShaftOptions clockShaftOptions)
         {
-            
-            ClockWork.ShaftConfigurationFunc = instance =>
+            hostApplicationLifetime.ApplicationStarted.Register(() =>
             {
-                var configTimeSpan = clockShaftOptions.ShiftTimeSpan;
-
-                if (configTimeSpan <= TimeSpan.Zero)
+                ClockWork.ShaftConfigurationFunc = instance =>
                 {
+                    var configTimeSpan = clockShaftOptions.ShiftTimeSpan;
+
+                    if (configTimeSpan <= TimeSpan.Zero)
+                    {
+                        return instance;
+                    }
+
+                    instance.ShiftTimeSpan = configTimeSpan;
+
+                    if (clockShaftOptions.Backward)
+                    {
+                        instance.Backward = true;
+                    }
+
                     return instance;
-                }
+                };
+            });
 
-                instance.ShiftTimeSpan = configTimeSpan;
-
-                if (clockShaftOptions.Backward)
-                {
-                    instance.Backward = true;
-                }
-
-                return instance;
-            };
-
-            return builder;
+            hostApplicationLifetime.ApplicationStopped.Register(ClockWork.Reset);
+            
+            return hostApplicationLifetime;
         }
     }
 }

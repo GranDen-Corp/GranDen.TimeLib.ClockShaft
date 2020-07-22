@@ -17,7 +17,7 @@ namespace ClockShaftTest
 {
     ""ClockShaft"" : {
         ""Backward"" : true,
-        ""ShiftTimeSpan"" : ""00:00:00""
+        ""ShiftTimeSpan"" : ""00:01:00""
     }
 }
 ";
@@ -37,8 +37,7 @@ namespace ClockShaftTest
              //Assert
              Assert.NotNull(clockShaftOptionsMonitor);
              Assert.True(clockShaftOptionsMonitor.CurrentValue.Backward);
-             Assert.Equal(TimeSpan.Zero, clockShaftOptionsMonitor.CurrentValue.ShiftTimeSpan);
-
+             Assert.Equal(TimeSpan.FromMinutes(1.0), clockShaftOptionsMonitor.CurrentValue.ShiftTimeSpan);
         }
         
         private static IConfigurationRoot InitConfiguration(string jsonStr)
