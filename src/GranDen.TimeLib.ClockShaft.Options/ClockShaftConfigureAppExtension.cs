@@ -35,7 +35,7 @@ namespace GranDen.TimeLib.ClockShaft.Options
             {
                 ClockWork.ShaftConfigurationFunc = instance =>
                 {
-                    var configTimeSpan = clockShaftOptions.ShiftTimeSpan;
+                    var configTimeSpan = clockShaftOptions.ShiftTime;
 
                     if (configTimeSpan <= TimeSpan.Zero)
                     {

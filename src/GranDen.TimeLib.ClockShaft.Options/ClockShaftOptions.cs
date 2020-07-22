@@ -15,6 +15,6 @@ namespace GranDen.TimeLib.ClockShaft.Options
         /// <summary>
         /// Clock shaft movement amount
         /// </summary>
-        public TimeSpan ShiftTimeSpan { get; set; }
+        public TimeSpan ShiftTime { get; set; }
     }
 }

@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockShaftTest", "test\Cloc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranDen.TimeLib.ClockShaft.Options", "src\GranDen.TimeLib.ClockShaft.Options\GranDen.TimeLib.ClockShaft.Options.csproj", "{D4369DB1-A4AA-43DB-8478-7D552956D84F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test_sample", "test_sample", "{AF136E1E-8CB0-4340-BCC3-085C127DCFCB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebApp", "test_sample\DemoWebApp\DemoWebApp.csproj", "{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,18 @@ Global
 		{D4369DB1-A4AA-43DB-8478-7D552956D84F}.Release|x64.Build.0 = Release|Any CPU
 		{D4369DB1-A4AA-43DB-8478-7D552956D84F}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4369DB1-A4AA-43DB-8478-7D552956D84F}.Release|x86.Build.0 = Release|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Debug|x64.Build.0 = Debug|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Debug|x86.Build.0 = Debug|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Release|x64.ActiveCfg = Release|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Release|x64.Build.0 = Release|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Release|x86.ActiveCfg = Release|Any CPU
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +83,7 @@ Global
 		{3BA8A1F6-467C-435A-85A8-2764823ED6EF} = {19290A6B-F545-4D0A-A58B-650D4AD7A2A9}
 		{D8D55A37-F04B-454B-A177-47F572D7A52C} = {C359A2CB-119C-49E4-8B98-EF129054BB3E}
 		{D4369DB1-A4AA-43DB-8478-7D552956D84F} = {19290A6B-F545-4D0A-A58B-650D4AD7A2A9}
+		{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8} = {AF136E1E-8CB0-4340-BCC3-085C127DCFCB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A5B00AD3-6131-47FF-9F80-80BD7B9FADDD}
