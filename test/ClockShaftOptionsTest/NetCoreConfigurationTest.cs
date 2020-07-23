@@ -1,20 +1,13 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 using GranDen.TimeLib.ClockShaft.Options;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace ClockShaftTest
+namespace ClockShaftOptionsTest
 {
     public class NetCoreConfigurationTest
     {
-        #region Constant Definition
-
-        #endregion
-
         [Fact]
         public void TestLoadClockShaftConfiguration()
         {
@@ -28,7 +21,7 @@ namespace ClockShaftTest
 }
 ";
             var services = new ServiceCollection();
-            services.ConfigureClockShaftOption(InitConfiguration(clockShaftJsonStr).GetSection("ClockShaft"));
+            services.ConfigureClockShaftOption(ConfigurationHelper.InitConfiguration(clockShaftJsonStr).GetSection("ClockShaft"));
 
             //Act
             var builder = services.BuildServiceProvider();
@@ -40,10 +33,5 @@ namespace ClockShaftTest
             Assert.Equal(TimeSpan.FromMinutes(1.0), clockShaftOptionsMonitor.CurrentValue.ShiftTime);
         }
 
-        private static IConfigurationRoot InitConfiguration(string jsonStr)
-        {
-            using var ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonStr));
-            return new ConfigurationBuilder().AddJsonStream(ms).Build();
-        }
     }
 }
