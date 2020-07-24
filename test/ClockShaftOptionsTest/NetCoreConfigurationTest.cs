@@ -21,7 +21,7 @@ namespace ClockShaftOptionsTest
 }
 ";
             var services = new ServiceCollection();
-            services.ConfigureClockShaftOption(ConfigurationHelper.InitConfiguration(clockShaftJsonStr).GetSection("ClockShaft"));
+            services.ConfigureClockShaftOption(TestHostHelper.InitConfiguration(clockShaftJsonStr).GetSection("ClockShaft"));
 
             //Act
             var builder = services.BuildServiceProvider();
