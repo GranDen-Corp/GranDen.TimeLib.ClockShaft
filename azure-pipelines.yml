@@ -116,12 +116,14 @@ stages:
               minorVersion: $(NugetVerMinor)
               patchVersion: $(NugetVerPatch)
             displayName: Pack test NuGet package(s)
-          - task: NuGetCommand@2
+          - task: DotNetCoreCLI@2
             inputs:
               command: push
               packagesToPush: >-
                 $(Build.ArtifactStagingDirectory)/**/*.nupkg;$(Build.ArtifactStagingDirectory)/**/*.snupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg
               nuGetFeedType: internal
               publishVstsFeed: GranDen
-              allowPackageConflicts: true
+          - task: PublishSymbols@2
+            inputs:
+              searchPattern: '**/bin/Debug/**/*.pdb'
             displayName: Publish test NuGet package to Azure Artifacts
