@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using GranDen.TimeLib.ClockShaft;
+using TestUtil;
 using Xunit;
 
-namespace ReplaceDateTimeNowTest
+namespace ClockShaftTest
 {
     [Collection("Test should not parallel on different test classes")]
     public class DateTimeOffsetTest
@@ -127,34 +127,4 @@ namespace ReplaceDateTimeNowTest
             Assert.Equal(now, shaftNow.Subtract(oneHourSpan), new DateTimeOffsetComparator(10.0));
         }
     }
-
-    #region DateTimeOffset comparator
-
-    public class DateTimeOffsetComparator : IEqualityComparer<DateTimeOffset>
-    {
-        private readonly TimeSpan _fraction;
-
-        public DateTimeOffsetComparator(double fractionMilliseconds)
-        {
-            _fraction = TimeSpan.FromMilliseconds(fractionMilliseconds);
-        }
-
-        public bool Equals(DateTimeOffset expected, DateTimeOffset actual)
-        {
-            var compareResult = expected.CompareTo(actual);
-
-            if (compareResult == 0) { return true; }
-
-            var diff = compareResult > 0 ? expected.Subtract(actual) : actual.Subtract(expected);
-
-            return diff <= _fraction;
-        }
-
-        public int GetHashCode(DateTimeOffset obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
-
-    #endregion
 }
