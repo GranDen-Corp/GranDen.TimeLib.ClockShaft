@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GranDen.TimeLib.ClockShaft"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C359A2CB-119C-49E4-8B98-EF129054BB3E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockShaftTest", "test\ClockShaftTest\ClockShaftTest.csproj", "{D8D55A37-F04B-454B-A177-47F572D7A52C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockShaftTests", "test\ClockShaftTests\ClockShaftTests.csproj", "{D8D55A37-F04B-454B-A177-47F572D7A52C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockShaftOptionsTests", "test\ClockShaftOptionsTests\ClockShaftOptionsTests.csproj", "{762C7507-0E21-40E1-B6C1-62B84514E755}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GranDen.TimeLib.ClockShaft.Options", "src\GranDen.TimeLib.ClockShaft.Options\GranDen.TimeLib.ClockShaft.Options.csproj", "{D4369DB1-A4AA-43DB-8478-7D552956D84F}"
 EndProject
@@ -18,8 +20,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWebApp", "test_sample\DemoWebApp\DemoWebApp.csproj", "{7FB5C75F-CF8C-4C56-9F18-CB7B3450BCE8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoWorkerService", "test_sample\DemoWorkerService\DemoWorkerService.csproj", "{238180DA-83FA-434B-B876-2938ED85FF2A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockShaftOptionsTest", "test\ClockShaftOptionsTest\ClockShaftOptionsTest.csproj", "{762C7507-0E21-40E1-B6C1-62B84514E755}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtil", "test\TestUtil\TestUtil.csproj", "{B8B7EAC6-D117-46AD-A423-7E42CF546B7E}"
 EndProject

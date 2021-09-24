@@ -2,7 +2,7 @@ using GranDen.TimeLib.ClockShaft;
 using System;
 using Xunit;
 
-namespace ClockShaftTest
+namespace ClockShaftTests
 {
     [Collection("Test should not parallel on different test classes")]
     public class DateTimeNowTest
