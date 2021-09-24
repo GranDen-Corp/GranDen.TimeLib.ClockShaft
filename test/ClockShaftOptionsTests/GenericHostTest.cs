@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 using TestUtil;
 using Xunit;
 
-namespace ClockShaftOptionsTest
+namespace ClockShaftOptionsTests
 {
     public class GenericHostTest
     {

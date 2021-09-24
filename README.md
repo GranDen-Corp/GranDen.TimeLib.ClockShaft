@@ -14,4 +14,6 @@ DateTime utility library for easier testing in unit test or integration test, na
 
 [![Nuget](https://img.shields.io/nuget/v/GranDen.TimeLib.ClockShaft.Options)](https://www.nuget.org/packages/GranDen.TimeLib.ClockShaft.Options)
 
-Library provides [ASP.NET Core Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options) helper method and class for [GranDen.TimeLib.ClockShaft](https://www.nuget.org/packages/GranDen.TimeLib.ClockShaft/) library, see [test_sample](./test_sample) projects to see how to apply on ASP.NET Core Web App and Generic Host.
+Library provides [ASP.NET Core Options pattern](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/options) helper method and class for [GranDen.TimeLib.ClockShaft](https://www.nuget.org/packages/GranDen.TimeLib.ClockShaft/) library, see [test_sample](./test_sample) projects to see how to apply on ASP.NET Core Web and Generic Host project.
+
+![Demo Web App](./img/DemoAspNetCore_screenshots01.png)

@@ -4,9 +4,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
 
-namespace ClockShaftOptionsTest
+namespace ClockShaftOptionsTests
 {
-    public class NetCoreConfigurationTest
+    public class NetCoreConfigurationTests
     {
         [Fact]
         public void TestLoadClockShaftConfiguration()

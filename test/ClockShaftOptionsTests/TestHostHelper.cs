@@ -1,9 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
+﻿using System.IO;
 using System.Text;
-using System.Threading.Tasks;
-using GranDen.TimeLib.ClockShaft;
 using GranDen.TimeLib.ClockShaft.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
-namespace ClockShaftOptionsTest
+namespace ClockShaftOptionsTests
 {
     public static class TestHostHelper
     {

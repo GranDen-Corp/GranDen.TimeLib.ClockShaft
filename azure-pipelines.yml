@@ -9,10 +9,15 @@ trigger:
   - bugfix/*
 pool:
   vmImage: ubuntu-latest
+parameters:
+  - name: usePreviewSDK
+    type: boolean
+    default: false
 variables:
+  sdkVersion: 3.1.x
   buildConfiguration: Release
   sourceProject: src/**/*.csproj
-  testNetCoreProject: test/**/*Test.csproj
+  testProjects: test/**/*Tests.csproj
 stages:
   - stage: Build_stage
     condition: 'and(succeeded(), eq(variables[''Build.Reason''], ''PullRequest''))'
@@ -23,7 +28,8 @@ stages:
           - task: UseDotNet@2
             displayName: Use .NET 3.1 SDK
             inputs:
-              version: 3.1.x
+              version: $(sdkVersion)
+              includePreviewVersions: ${{ parameters.usePreviewSDK }}
               packageType: sdk
           - task: DotNetCoreCLI@2
             displayName: Restore source project's NuGet package(s)
@@ -50,12 +56,13 @@ stages:
           - task: UseDotNet@2
             displayName: Use .NET 3.1 SDK
             inputs:
-              version: 3.1.x
+              version: $(sdkVersion)
+              includePreviewVersions: ${{ parameters.usePreviewSDK }}
               packageType: sdk
           - task: DotNetCoreCLI@2
             inputs:
               command: test
-              projects: $(testNetCoreProject)
+              projects: $(testProjects)
               arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true'
               publishTestResults: true
             displayName: Run NetCore test project
@@ -82,7 +89,8 @@ stages:
           - task: UseDotNet@2
             displayName: Use .NET 3.1 SDK
             inputs:
-              version: 3.1.x
+              version: $(sdkVersion)
+              includePreviewVersions: ${{ parameters.usePreviewSDK }}
               packageType: sdk
           - task: PowerShell@2
             displayName: Fetch version number from Directory.Build.props file
@@ -126,8 +134,8 @@ stages:
               nuGetFeedType: internal
               publishVstsFeed: GranDen
           - task: PublishSymbols@2
-            displayName: 'Publish pdb file(s)'
+            displayName: Publish pdb file(s)
             inputs:
-              IndexSources: false,
+              IndexSources: false
               SearchPattern: '**/src/**/bin/**/*.pdb'
               SymbolServerType: TeamServices

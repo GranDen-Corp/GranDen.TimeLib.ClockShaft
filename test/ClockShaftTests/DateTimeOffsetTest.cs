@@ -3,7 +3,7 @@ using GranDen.TimeLib.ClockShaft;
 using TestUtil;
 using Xunit;
 
-namespace ClockShaftTest
+namespace ClockShaftTests
 {
     [Collection("Test should not parallel on different test classes")]
     public class DateTimeOffsetTest
