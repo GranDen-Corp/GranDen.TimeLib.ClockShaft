@@ -17,7 +17,7 @@ variables:
   sdkVersion: 3.1.x
   buildConfiguration: Release
   sourceProject: src/**/*.csproj
-  testNetCoreProject: test/**/*Test.csproj
+  testProjects: test/**/*Tests.csproj
 stages:
   - stage: Build_stage
     condition: 'and(succeeded(), eq(variables[''Build.Reason''], ''PullRequest''))'
@@ -62,7 +62,7 @@ stages:
           - task: DotNetCoreCLI@2
             inputs:
               command: test
-              projects: $(testNetCoreProject)
+              projects: $(testProjects)
               arguments: '--configuration $(buildConfiguration)  /p:CollectCoverage=true'
               publishTestResults: true
             displayName: Run NetCore test project
