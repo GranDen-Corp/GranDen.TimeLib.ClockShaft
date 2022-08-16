@@ -5,8 +5,10 @@ Set-Variable -Name build_version_text -Value `
 Set-Variable -Name package_name -Value "Nuget.Versioning" -Option Constant;
 Set-Variable -Name package_version -Value "6.3.0" -Option Constant;
 Set-Variable -Name type_name -Value "NuGet.Versioning.NuGetVersion" -Option Constant;
+Set-Variable -Name nuget_source -Value "https://api.nuget.org/v3/index.json" -Option Constant;
 
 if($type_name -as [type]) {
+  Write-Debug "{$type_name} already loaded";
   $ret = New-Object -TypeName $type_name -ArgumentList "$build_version_text";
   return $ret;
 }
@@ -16,7 +18,7 @@ if ($error) {
   # Get nuget package and find the extraced dll in first occurence
   Write-Debug "try to download `"$package_name`" nuget package..."
   $error.Clear();
-  Install-Package -Verbose -Name "$package_name" -ProviderName NuGet -RequiredVersion $package_version -SkipDependencies -Scope CurrentUser -Force;
+  Install-Package -Verbose -Name "$package_name" -RequiredVersion $package_version -SkipDependencies -ProviderName NuGet -Source $nuget_source -Scope CurrentUser -Force;
 }
 
 if($null -eq $nuget_versioning_source)
