@@ -14,7 +14,7 @@ parameters:
     type: boolean
     default: false
 variables:
-  sdkVersion: 6.0.x
+  sdkVersion: 6.x
   buildConfiguration: Release
   sourceProject: src/**/*.csproj
   testProjects: test/**/*Tests.csproj
