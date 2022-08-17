@@ -13,6 +13,11 @@ namespace GranDen.TimeLib.ClockShaft
     /// </summary>
     public static class ClockWork
     {
+        /// <summary>
+        /// Default configure shaft function is keep it intact 
+        /// </summary>
+        public static ConfigShaftDelegate DefaultConfigShaftDelegate { get; } = instance => instance;
+
         #if NETSTANDARD2_0 || NETSTANDARD2_1 
         private static ConfigShaftDelegate _configShaftDelegate;
         #else
@@ -26,11 +31,15 @@ namespace GranDen.TimeLib.ClockShaft
         {
             get
             {
+#if NETSTANDARD2_0 || NETStANDARD2_1
                 if(_configShaftDelegate == null)
                 {
-                    _configShaftDelegate = Shaft.DefaultConfigShaftDelegate;
+                    _configShaftDelegate = DefaultConfigShaftDelegate;
                 }
                 return _configShaftDelegate;
+#else
+                return _configShaftDelegate ??= DefaultConfigShaftDelegate;
+#endif
             }
             set
             {
@@ -44,7 +53,7 @@ namespace GranDen.TimeLib.ClockShaft
         /// </summary>
         public static void Reset()
         {
-            Shaft.ReAssignLazyInstance(Shaft.DefaultConfigShaftDelegate);
+            Shaft.ReAssignLazyInstance(DefaultConfigShaftDelegate);
         }
 
         /// <summary>
@@ -63,16 +72,12 @@ namespace GranDen.TimeLib.ClockShaft
         public static bool ShaftInitialized { get => Shaft.IsCreated(); }
     }
 
-    #region Singleton Shaft class
+#region Singleton Shaft class
 
     internal class Shaft : IShaft, IDateTime, IDateTimeOffset
     {
         private static Lazy<Shaft> _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
 
-        /// <summary>
-        /// Default configure shaft function is keep it intact 
-        /// </summary>
-        public static readonly ConfigShaftDelegate DefaultConfigShaftDelegate = instance => instance;
 
         public static bool IsCreated()
         {
@@ -162,9 +167,6 @@ namespace GranDen.TimeLib.ClockShaft
 
             Shaft LazyShaftInitFunc()
             {
-                #if NETSTANDARD2_0 || NETSTANDARD2_1
-                if (shaftDelegate == null) { shaftDelegate = DefaultConfigShaftDelegate; }
-                #endif
                 return (Shaft)shaftDelegate(instance);
             }
 
@@ -172,5 +174,5 @@ namespace GranDen.TimeLib.ClockShaft
         }
     }
 
-    #endregion
+#endregion
 }
