@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
+﻿using System;
 
 namespace GranDen.TimeLib.ClockShaft
 {
@@ -14,7 +13,11 @@ namespace GranDen.TimeLib.ClockShaft
     /// </summary>
     public static class ClockWork
     {
+        #if NETSTANDARD2_0 || NETSTANDARD2_1 
         private static ConfigShaftDelegate _configShaftDelegate;
+        #else
+        private static ConfigShaftDelegate? _configShaftDelegate;
+        #endif
 
         /// <summary>
         /// Shaft configuration function
@@ -23,6 +26,10 @@ namespace GranDen.TimeLib.ClockShaft
         {
             get
             {
+                if(_configShaftDelegate == null)
+                {
+                    _configShaftDelegate = Shaft.DefaultConfigShaftDelegate;
+                }
                 return _configShaftDelegate;
             }
             set
@@ -62,6 +69,9 @@ namespace GranDen.TimeLib.ClockShaft
     {
         private static Lazy<Shaft> _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
 
+        /// <summary>
+        /// Default configure shaft function is keep it intact 
+        /// </summary>
         public static readonly ConfigShaftDelegate DefaultConfigShaftDelegate = instance => instance;
 
         public static bool IsCreated()
@@ -152,10 +162,10 @@ namespace GranDen.TimeLib.ClockShaft
 
             Shaft LazyShaftInitFunc()
             {
+                #if NETSTANDARD2_0 || NETSTANDARD2_1
                 if (shaftDelegate == null) { shaftDelegate = DefaultConfigShaftDelegate; }
-
-                var ret = shaftDelegate(instance);
-                return (Shaft)ret;
+                #endif
+                return (Shaft)shaftDelegate(instance);
             }
 
             return LazyShaftInitFunc;
