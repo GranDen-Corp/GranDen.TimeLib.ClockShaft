@@ -16,7 +16,7 @@ namespace GranDen.TimeLib.ClockShaft
         /// <summary>
         /// Default configure shaft function is keep it intact 
         /// </summary>
-        public static ConfigShaftDelegate DefaultConfigShaftDelegate { get; } = instance => instance;
+        private static ConfigShaftDelegate DefaultConfigShaftDelegate { get; } = instance => instance;
 
         #if NETSTANDARD2_0 || NETSTANDARD2_1 
         private static ConfigShaftDelegate _configShaftDelegate;
@@ -32,17 +32,17 @@ namespace GranDen.TimeLib.ClockShaft
             get
             {
 #if NETSTANDARD2_0 || NETStANDARD2_1
-                if(_configShaftDelegate == null)
-                {
-                    _configShaftDelegate = DefaultConfigShaftDelegate;
-                }
-                return _configShaftDelegate;
+                return _configShaftDelegate ?? (_configShaftDelegate = DefaultConfigShaftDelegate);
 #else
                 return _configShaftDelegate ??= DefaultConfigShaftDelegate;
 #endif
             }
             set
             {
+                if(value == null)
+                {
+                    value = DefaultConfigShaftDelegate;
+                }
                 _configShaftDelegate = value;
                 Shaft.ReAssignLazyInstance(value);
             }

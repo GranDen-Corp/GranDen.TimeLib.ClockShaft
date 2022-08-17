@@ -3,6 +3,7 @@
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netstandard2.1;net6.0</TargetFrameworks>
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <Title>DateTime Utility</Title>
         <Copyright>Copyright (c) 2022 GranDen Corp.(狂點軟體開發)</Copyright>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -12,7 +13,7 @@
         <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</PackageProjectUrl>
         <IncludeSymbols>true</IncludeSymbols>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <PackageTags>date time timezone aspnetcore configuration options</PackageTags>
+        <PackageTags>date time timezone aspnetcore configuration options test testing</PackageTags>
         <Company>GranDen Inc.</Company>
         <Authors>Isak Pao</Authors>
         <Description>Helper method and class for support ASP.NET Core Options pattern in GranDen.TimeLib.ClockShaft library</Description>
@@ -30,8 +31,16 @@
         <DocumentationFile>./GranDen.TimeLib.ClockShaft.Options.xml</DocumentationFile>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+    </PropertyGroup>
+
     <ItemGroup>
         <None Remove="GranDen.TimeLib.ClockShaft.Options.xml"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="docs/README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">

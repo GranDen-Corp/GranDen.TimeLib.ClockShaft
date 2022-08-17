@@ -35,6 +35,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <ItemGroup>
       <ProjectReference Include="..\..\src\GranDen.TimeLib.ClockShaft.Options\GranDen.TimeLib.ClockShaft.Options.csproj" />
       <ProjectReference Include="..\TestUtil\TestUtil.csproj" />
     </ItemGroup>
