@@ -1,5 +1,6 @@
 ﻿# GranDen.TimeLib.ClockShaft
 
+[![Build Status](https://dev.azure.com/GranDen-Corp/GranDen.TimeLib.ClockShaft/_apis/build/status/GranDen-Corp.GranDen.TimeLib.ClockShaft?branchName=dev)](https://dev.azure.com/GranDen-Corp/GranDen.TimeLib.ClockShaft/_build/latest?definitionId=36&branchName=dev)&nbsp;&nbsp;
 [![Nuget](https://img.shields.io/nuget/v/GranDen.TimeLib.ClockShaft)](https://www.nuget.org/packages/GranDen.TimeLib.ClockShaft/)
 
 DateTime utility library for easier testing in unit test or integration test;
