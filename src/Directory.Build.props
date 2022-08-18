@@ -1,9 +1,9 @@
 <Project>
   <PropertyGroup>
-    <Version Condition=" '$(Version)'=='' ">1.0.2</Version>
-    <PackageReleaseNotes>1.0.2 : 
-      &#xD;&#xA;Update Microsoft.Extensions.Options.ConfigurationExtensions package to .NET 5
-      &#xD;&#xA;
+    <Version Condition=" '$(Version)'=='' ">1.1.0</Version>
+    <PackageReleaseNotes>1.1.0 : 
+      &#xD;&#xA;1. Upgraded to use .NET 6.0 SDK.
+      &#xD;&#xA;2. Support C# 8 Nullable Reference Types.
     </PackageReleaseNotes>
   </PropertyGroup>
 </Project>

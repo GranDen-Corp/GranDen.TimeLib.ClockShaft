@@ -16,8 +16,13 @@ namespace GranDen.TimeLib.ClockShaft.Options
         /// <param name="configuration"></param>
         /// <param name="postConfigureAction"></param>
         /// <returns></returns>
+        #if NETSTANDARD2_0 || NETSTANDARD2_1
         public static IServiceCollection ConfigureClockShaftOption(this IServiceCollection services,
             IConfiguration configuration, Action<ClockShaftOptions> postConfigureAction = null)
+        #else
+        public static IServiceCollection ConfigureClockShaftOption(this IServiceCollection services,
+            IConfiguration configuration, Action<ClockShaftOptions>? postConfigureAction = null)
+       #endif 
         {
             services.AddOptions<ClockShaftOptions>().Bind(configuration);
             if (postConfigureAction != null)

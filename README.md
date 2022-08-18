@@ -10,6 +10,17 @@ DateTime utility library for easier testing in unit test or integration test, na
 
 ![Clock diagram](./img/Assembly-Diagram-CLEAN.jpg)
 
+Yoo can define a configure lambda function to customize the behavior like following:
+```cs
+ ClockWork.ShaftConfigurationFunc = shaft =>
+            {
+                shaft.Backward = true;
+                shaft.ShiftTimeSpan = new TimeSpan(1, 0, 0);
+                return shaft;
+            };
+```
+Then when you access the `ClockWork.DateTime.Now` static property, it will return the [datetime](https://docs.microsoft.com/en-us/dotnet/api/system.datetime) one hour earlier.
+
 ## GranDen.TimeLib.ClockShaft.Options
 
 [![Nuget](https://img.shields.io/nuget/v/GranDen.TimeLib.ClockShaft.Options)](https://www.nuget.org/packages/GranDen.TimeLib.ClockShaft.Options)
