@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
+﻿using System;
 
 namespace GranDen.TimeLib.ClockShaft
 {
@@ -14,7 +13,16 @@ namespace GranDen.TimeLib.ClockShaft
     /// </summary>
     public static class ClockWork
     {
+        /// <summary>
+        /// Default configure shaft function is keep it intact 
+        /// </summary>
+        private static ConfigShaftDelegate DefaultConfigShaftDelegate { get; } = instance => instance;
+
+#if NETSTANDARD2_0 || NETSTANDARD2_1
         private static ConfigShaftDelegate _configShaftDelegate;
+#else
+        private static ConfigShaftDelegate? _configShaftDelegate;
+#endif
 
         /// <summary>
         /// Shaft configuration function
@@ -23,10 +31,19 @@ namespace GranDen.TimeLib.ClockShaft
         {
             get
             {
-                return _configShaftDelegate;
+#if NETSTANDARD2_0 || NETStANDARD2_1
+                return _configShaftDelegate ?? (_configShaftDelegate = DefaultConfigShaftDelegate);
+#else
+                return _configShaftDelegate ??= DefaultConfigShaftDelegate;
+#endif
             }
             set
             {
+                if (value == null)
+                {
+                    value = DefaultConfigShaftDelegate;
+                }
+
                 _configShaftDelegate = value;
                 Shaft.ReAssignLazyInstance(value);
             }
@@ -37,7 +54,7 @@ namespace GranDen.TimeLib.ClockShaft
         /// </summary>
         public static void Reset()
         {
-            Shaft.ReAssignLazyInstance(Shaft.DefaultConfigShaftDelegate);
+            Shaft.ReAssignLazyInstance(DefaultConfigShaftDelegate);
         }
 
         /// <summary>
@@ -62,7 +79,6 @@ namespace GranDen.TimeLib.ClockShaft
     {
         private static Lazy<Shaft> _lazyInstance = new Lazy<Shaft>(GenerateShaftFactory(ClockWork.ShaftConfigurationFunc));
 
-        public static readonly ConfigShaftDelegate DefaultConfigShaftDelegate = instance => instance;
 
         public static bool IsCreated()
         {
@@ -76,9 +92,7 @@ namespace GranDen.TimeLib.ClockShaft
 
         public static Shaft SingletonInstance { get => _lazyInstance.Value; }
 
-        private Shaft()
-        {
-        }
+        private Shaft() { }
 
         public DateTime Now
         {
@@ -152,10 +166,7 @@ namespace GranDen.TimeLib.ClockShaft
 
             Shaft LazyShaftInitFunc()
             {
-                if (shaftDelegate == null) { shaftDelegate = DefaultConfigShaftDelegate; }
-
-                var ret = shaftDelegate(instance);
-                return (Shaft)ret;
+                return (Shaft)shaftDelegate(instance);
             }
 
             return LazyShaftInitFunc;

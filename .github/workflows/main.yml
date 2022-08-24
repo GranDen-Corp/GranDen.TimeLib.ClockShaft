@@ -1,0 +1,51 @@
+name: "build and test src"
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [ main, dev, 'feature/*', 'hotfix/*', 'bugfix/*' ]
+    paths-ignore:
+      - 'scripts/**'
+  pull_request:
+    branches: [ main, dev ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build_and_test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          global-json-file: global.json
+      - name: Build
+        id: build_src
+        run: dotnet build --configuration Release
+      - name: Install .NET SDK for run tests
+        if: steps.build_src.outcome == 'success'
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: |
+            3.1.x
+            6.x.x
+      - name: Run tests
+        if: steps.build_src.outcome == 'success'
+        id: run_tests
+        run: dotnet test --configuration Release /p:CollectCoverage=true
+      - name: Create code coverage report
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator -reports:${{github.workspace}}/**/TestResult/Coverage/*.cobertura.xml -targetdir:${{github.workspace}}/CodeCoverage -reporttypes:'HTML'    
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: ${{github.workspace}}/CodeCoverage
