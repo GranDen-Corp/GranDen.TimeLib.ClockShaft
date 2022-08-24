@@ -37,6 +37,7 @@ jobs:
             3.1.x
             6.x.x
       - name: Run tests
-        run: |
-          ./run_test.ps1
-        shell: pwsh
+        if: steps.build_src.outcome == 'success'
+        id: run_tests
+        run: dotnet test --configuration Release /p:CollectCoverage=true
+          
