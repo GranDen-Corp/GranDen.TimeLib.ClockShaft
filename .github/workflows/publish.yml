@@ -28,6 +28,6 @@ jobs:
           PROJECT_FILE_PATH: src/GranDen.TimeLib.ClockShaft.Options/GranDen.TimeLib.ClockShaft.Options.csproj
           VERSION_FILE_PATH: src/Directory.Build.props
           VERSION_REGEX: ^\s*<Version Condition=\" \'\$\(Version\)\'==\'\' \">(.*)<\/Version>\s*$
-          TAG_COMMIT: true
+          TAG_COMMIT: false
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           INCLUDE_SYMBOLS: true
