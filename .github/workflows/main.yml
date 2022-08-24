@@ -40,4 +40,7 @@ jobs:
         if: steps.build_src.outcome == 'success'
         id: run_tests
         run: dotnet test --configuration Release /p:CollectCoverage=true
-          
+      - name: Create code coverage report
+        run: |
+          dotnet tool install -g dotnet-reportgenerator-globaltool
+          reportgenerator -reports:$(Agent.WorkFolder)/**/TestResult/Coverage/*.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'Cobertura'    
