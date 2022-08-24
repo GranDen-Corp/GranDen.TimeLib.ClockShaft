@@ -43,4 +43,4 @@ jobs:
       - name: Create code coverage report
         run: |
           dotnet tool install -g dotnet-reportgenerator-globaltool
-          reportgenerator -reports:$(Agent.WorkFolder)/**/TestResult/Coverage/*.cobertura.xml -targetdir:$(Build.SourcesDirectory)/CodeCoverage -reporttypes:'Cobertura'    
+          reportgenerator -reports:${{github.workspace}}/**/TestResult/Coverage/*.cobertura.xml -targetdir:${{github.workspace}}/CodeCoverage -reporttypes:'Cobertura'    
