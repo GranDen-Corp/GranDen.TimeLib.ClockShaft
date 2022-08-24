@@ -5,14 +5,6 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <Title>DateTime Utility</Title>
-        <Copyright>Copyright (c) 2022 GranDen Corp.(狂點軟體開發)</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</RepositoryUrl>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</PackageProjectUrl>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <PackageTags>date time timezone test testing</PackageTags>
         <Company>GranDen Inc.</Company>
         <Authors>Isak Pao</Authors>
