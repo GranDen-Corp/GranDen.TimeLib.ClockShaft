@@ -18,11 +18,11 @@ namespace GranDen.TimeLib.ClockShaft
         /// </summary>
         private static ConfigShaftDelegate DefaultConfigShaftDelegate { get; } = instance => instance;
 
-        #if NETSTANDARD2_0 || NETSTANDARD2_1 
+#if NETSTANDARD2_0 || NETSTANDARD2_1
         private static ConfigShaftDelegate _configShaftDelegate;
-        #else
+#else
         private static ConfigShaftDelegate? _configShaftDelegate;
-        #endif
+#endif
 
         /// <summary>
         /// Shaft configuration function
@@ -39,10 +39,11 @@ namespace GranDen.TimeLib.ClockShaft
             }
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     value = DefaultConfigShaftDelegate;
                 }
+
                 _configShaftDelegate = value;
                 Shaft.ReAssignLazyInstance(value);
             }
@@ -72,7 +73,7 @@ namespace GranDen.TimeLib.ClockShaft
         public static bool ShaftInitialized { get => Shaft.IsCreated(); }
     }
 
-#region Singleton Shaft class
+    #region Singleton Shaft class
 
     internal class Shaft : IShaft, IDateTime, IDateTimeOffset
     {
@@ -91,9 +92,7 @@ namespace GranDen.TimeLib.ClockShaft
 
         public static Shaft SingletonInstance { get => _lazyInstance.Value; }
 
-        private Shaft()
-        {
-        }
+        private Shaft() { }
 
         public DateTime Now
         {
@@ -174,5 +173,5 @@ namespace GranDen.TimeLib.ClockShaft
         }
     }
 
-#endregion
+    #endregion
 }

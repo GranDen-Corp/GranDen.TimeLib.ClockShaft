@@ -4,6 +4,16 @@
     <PackageReleaseNotes>1.1.0 : 
       &#xD;&#xA;1. Upgraded to use .NET 6.0 SDK.
       &#xD;&#xA;2. Support C# 8 Nullable Reference Types.
+      &#xD;&#xA;3. Add README in nuget package.
     </PackageReleaseNotes>
+    <Copyright>Copyright (c) 2022 GranDen Corp.(狂點軟體開發)</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</RepositoryUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</PackageProjectUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 </Project>

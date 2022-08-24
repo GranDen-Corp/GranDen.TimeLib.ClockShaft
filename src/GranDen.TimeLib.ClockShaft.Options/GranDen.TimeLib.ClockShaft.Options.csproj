@@ -5,14 +5,6 @@
         <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
         <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
         <Title>DateTime Utility</Title>
-        <Copyright>Copyright (c) 2022 GranDen Corp.(狂點軟體開發)</Copyright>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryType>git</RepositoryType>
-        <RepositoryUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</RepositoryUrl>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <PackageProjectUrl>https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft</PackageProjectUrl>
-        <IncludeSymbols>true</IncludeSymbols>
-        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
         <PackageTags>date time timezone aspnetcore configuration options test testing</PackageTags>
         <Company>GranDen Inc.</Company>
         <Authors>Isak Pao</Authors>
@@ -36,24 +28,25 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Remove="GranDen.TimeLib.ClockShaft.Options.xml"/>
+        <None Remove="GranDen.TimeLib.ClockShaft.Options.xml" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="docs/README.md" Pack="true" PackagePath="\"/>
+        <None Include="docs/README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'netstandard2.1'">
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.28"/>
-        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.28"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="3.1.28" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.1.28" />
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
@@ -61,8 +54,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\GranDen.TimeLib.ClockShaft\GranDen.TimeLib.ClockShaft.csproj"/>
+        <ProjectReference Include="..\GranDen.TimeLib.ClockShaft\GranDen.TimeLib.ClockShaft.csproj" />
     </ItemGroup>
-
 
 </Project>

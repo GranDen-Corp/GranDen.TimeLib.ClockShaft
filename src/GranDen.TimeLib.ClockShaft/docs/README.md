@@ -1,8 +1,5 @@
 ﻿# GranDen.TimeLib.ClockShaft
 
-[![Build Status](https://dev.azure.com/GranDen-Corp/GranDen.TimeLib.ClockShaft/_apis/build/status/GranDen-Corp.GranDen.TimeLib.ClockShaft?branchName=dev)](https://dev.azure.com/GranDen-Corp/GranDen.TimeLib.ClockShaft/_build/latest?definitionId=36&branchName=dev)&nbsp;&nbsp;
-[![Nuget](https://img.shields.io/nuget/v/GranDen.TimeLib.ClockShaft)](https://www.nuget.org/packages/GranDen.TimeLib.ClockShaft/)
-
 DateTime utility library for easier testing in unit test or integration test;
 
 Yoo can define a configure lambda function to customize the behavior like following:
@@ -14,4 +11,6 @@ Yoo can define a configure lambda function to customize the behavior like follow
                 return shaft;
             };
 ```
-Then when you access the `ClockWork.DateTime.Now` static property, it will return the [datetime](https://docs.microsoft.com/en-us/dotnet/api/system.datetime) one hour earlier.
+Then when you access the `ClockWork.DateTime.Now` or `ClockWork.DateTimeOffset.Now` static property, it will return the [datetime](https://docs.microsoft.com/en-us/dotnet/api/system.datetime) one hour earlier.
+
+Once you want to clear the drift of the system clock, you can call the `ClockWork.Reset()` static method.
