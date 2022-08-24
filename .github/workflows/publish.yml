@@ -1,0 +1,26 @@
+name: publish to nuget
+on:
+  workflow_dispatch:
+      
+jobs:
+  publish:
+    name: build, pack & publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v2
+        with:
+          global-json-file: global.json
+      # Publish
+      - name: publish on version change
+        id: publish_nuget
+        uses: alirezanet/publish-nuget@v3.0.4
+        with:
+          # Filepath of the project to be packaged, relative to root of repository
+          PROJECT_FILE_PATH: src/**/*.csproj
+          VERSION_FILE_PATH: src/Directory.Build.props
+          VERSION_REGEX: ^\s*<Version Condition=\" \'\$\(Version\)\'==\'\' \">(.*)<\/Version>\s*$
+          TAG_COMMIT: false
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          INCLUDE_SYMBOLS: true
