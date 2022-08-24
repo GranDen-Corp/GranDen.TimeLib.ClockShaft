@@ -1,6 +1,6 @@
 # GranDen Time-related testing library
 
-[![Build Status](https://img.shields.io/github/workflow/status/GranDen-Corp/GranDen.TimeLib.ClockShaft/build%20library%20src)](https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft/actions)
+[![Build Status](https://img.shields.io/github/workflow/status/GranDen-Corp/GranDen.TimeLib.ClockShaft/build%20and%20test%20src)](https://github.com/GranDen-Corp/GranDen.TimeLib.ClockShaft/actions)
 
 ## GranDen.TimeLib.ClockShaft
 
