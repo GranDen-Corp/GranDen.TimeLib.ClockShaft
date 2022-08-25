@@ -15,7 +15,7 @@ jobs:
         run: |
           $version_info = & ./scripts/get_build_version.ps1
           echo "version: $version_info"
-          Write-Output ::set-output name=version_str::"v$($version_info.OriginalVersion)"
+          Write-Output "::set-output name=version_str::$('v'+$($version_info.OriginalVersion))"
       # Create GitHub.com Release
       - name: "Create GitHub Release"
         uses: "marvinpinto/action-automatic-releases@latest"
