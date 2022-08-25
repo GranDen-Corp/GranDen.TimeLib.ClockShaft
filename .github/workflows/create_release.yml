@@ -15,12 +15,12 @@ jobs:
         run: |
           $version_info = & ./scripts/get_build_version.ps1
           echo "version: $version_info"
-          echo ::set-output name=version_str::$($version_info.OriginalVersion)
+          echo ::set-output name=version_str::"v$($version_info.OriginalVersion)"
       # Create GitHub.com Release
       - name: "Create GitHub Release"
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "v${{ steps.get_version.outputs.version_str }}"
+          automatic_release_tag: "${{ steps.get_version.outputs.version_str }}"
           prerelease: true
       
