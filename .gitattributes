@@ -1,7 +1,4 @@
-﻿# Auto detect text files and perform LF normalization
-# https://www.davidlaing.com/2012/09/19/customise-your-gitattributes-to-become-a-git-ninja/
-*    text=auto
-
+﻿
 *.cs text diff=csharp
 # Unity
 *.cginc              text
@@ -134,12 +131,6 @@
 #
 # Note that binary is a macro for -text -diff.
 ######################################################################
-
-# Auto detect
-##   Handle line endings automatically for files detected as
-##   text and leave all files detected as binary untouched.
-##   This will handle all files NOT defined below.
-*                 text=auto
 
 # Source code
 *.bash            text eol=lf
