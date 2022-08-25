@@ -1,5 +1,5 @@
 #!/usr/bin/env pwsh
-
+Set-StrictMode -Version 3
 Set-Variable -Name build_version_text -Value `
 (Select-Xml -Path './src/Directory.Build.props' -XPath "/Project/PropertyGroup/Version[contains(@Condition, `"`'`$(Version)`'==`'`'`")]//text()[1]").Node.Value -Option Constant;
 Set-Variable -Name package_name -Value 'Nuget.Versioning' -Option Constant;
