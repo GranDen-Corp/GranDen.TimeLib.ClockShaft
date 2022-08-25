@@ -1,4 +1,4 @@
-name: "create github release"
+name: "2. create github release"
 
 on:
   workflow_dispatch:
@@ -12,7 +12,7 @@ jobs:
         id: "get_version"
         shell: pwsh
         run: |
-          $version_info = ${{github.workspace}}/scripts/get_build_version.ps1
+          $version_info = & ${{github.workspace}}/scripts/get_build_version.ps1
           echo ::set-output name=version_info::$($version_info)
       # Create GitHub.com Release
       - name: "Create GitHub Release"
